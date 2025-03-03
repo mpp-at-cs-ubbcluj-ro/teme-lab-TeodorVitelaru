@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.iml" group="IncercareGradle" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle_main.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle_main.iml" group="IncercareGradle" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle_test.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle_test.iml" group="IncercareGradle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.main.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.test.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/labMpp/labMpp.iml" filepath="$PROJECT_DIR$/labMpp/labMpp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/teme-lab-TeodorVitelaru.iml" filepath="$PROJECT_DIR$/.idea/teme-lab-TeodorVitelaru.iml" />
     </modules>

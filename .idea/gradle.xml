@@ -6,6 +6,11 @@
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/IncercareGradle" />
         <option name="gradleHome" value="" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/IncercareGradle" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

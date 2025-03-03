@@ -5,7 +5,6 @@
     <content url="file://$MODULE_DIR$/../../IncercareGradle">
       <excludeFolder url="file://$MODULE_DIR$/../../IncercareGradle/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../IncercareGradle/build" />
-      <excludeFolder url="file://$MODULE_DIR$/../../IncercareGradle/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
