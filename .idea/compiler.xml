@@ -7,6 +7,9 @@
       <module name="IncercareGradle.test" target="23" />
       <module name="IncercareGradle_main" target="23" />
       <module name="IncercareGradle_test" target="23" />
+      <module name="lab2_turism" target="23" />
+      <module name="lab2_turism.main" target="23" />
+      <module name="lab2_turism.test" target="23" />
     </bytecodeTargetLevel>
   </component>
 </project>
