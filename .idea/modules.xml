@@ -9,6 +9,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab2_turism.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lab2_turism.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab2_turism.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lab2_turism.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/lab_bd.iml" filepath="$PROJECT_DIR$/lab_bd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab_bd.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lab_bd.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab_bd.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lab_bd.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab_bd_2.iml" filepath="$PROJECT_DIR$/lab_bd_2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab_bd_2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lab_bd_2.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab_bd_2.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lab_bd_2.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/teme-lab-TeodorVitelaru.iml" filepath="$PROJECT_DIR$/.idea/teme-lab-TeodorVitelaru.iml" />
     </modules>
   </component>
