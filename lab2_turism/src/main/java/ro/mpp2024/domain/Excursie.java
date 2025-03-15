@@ -55,4 +55,15 @@ public class Excursie extends Entity<Long> {
     public void setNrLocuriDisponibile(Integer nrLocuriDisponibile) {
         this.nrLocuriDisponibile = nrLocuriDisponibile;
     }
+
+    @Override
+    public String toString() {
+        return "Excursie{" +
+                "id=" + id +
+                ", obiectiv='" + obiectiv + '\'' +
+                ", firmaTransport='" + firmaTransport + '\'' +
+                ", dataPlecarii=" + dataPlecarii +
+                ", nrLocuriDisponibile=" + nrLocuriDisponibile +
+                '}';
+    }
 }

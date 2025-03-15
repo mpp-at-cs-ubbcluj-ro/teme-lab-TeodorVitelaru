@@ -5,7 +5,7 @@ public class Client extends  Entity<Long> {
     private String nume;
     private String telefon;
 
-    public Client(String nume, String prenume, String telefon, Integer nrBilete) {
+    public Client(String nume, String telefon) {
         this.nume = nume;
         this.telefon = telefon;
     }
@@ -33,5 +33,14 @@ public class Client extends  Entity<Long> {
 
     public void setTelefon(String telefon) {
         this.telefon = telefon;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", nume='" + nume + '\'' +
+                ", telefon='" + telefon + '\'' +
+                '}';
     }
 }

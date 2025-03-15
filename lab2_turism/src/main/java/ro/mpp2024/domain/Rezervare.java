@@ -2,25 +2,34 @@ package ro.mpp2024.domain;
 
 public class Rezervare extends Entity<Long> {
     private Long id;
-    private Long idExcursie;
-    private Long idClient;
+    private Excursie excursie;
+    private Client client;
     private int nrBilete;
-    private Long idUser;
+    private User user;
 
-    public Rezervare(Long idExcursie, Long idClient, Integer nrBilete, Long idUser) {
-        this.idExcursie = idExcursie;
-        this.idClient = idClient;
+    public Rezervare(Excursie excursie, Client client, Integer nrBilete, User user) {
+        this.excursie = excursie;
+        this.client = client;
         this.nrBilete = nrBilete;
-        this.idUser = idUser;
+        this.user = user;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Excursie getExcursie() {
+        return excursie;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setExcursie(Excursie excursie) {
+        this.excursie = excursie;
     }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
 
     public Long getId() {
         return id;
@@ -30,27 +39,34 @@ public class Rezervare extends Entity<Long> {
         this.id = id;
     }
 
-    public Long getIdExcursie() {
-        return idExcursie;
-    }
-
-    public void setIdExcursie(Long idExcursie) {
-        this.idExcursie = idExcursie;
-    }
-
-    public Long getIdClient() {
-        return idClient;
-    }
-
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
-    }
-
     public Integer getNrBilete() {
         return nrBilete;
     }
 
     public void setNrBilete(Integer nrBilete) {
         this.nrBilete = nrBilete;
+    }
+
+    public Long getIdExcursie() {
+        return excursie.getId();
+    }
+
+    public Long getIdClient() {
+        return client.getId();
+    }
+
+    public Long getIdUser() {
+        return user.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Rezervare{" +
+                "id=" + id +
+                ", excursie=" + excursie +
+                ", client=" + client +
+                ", nrBilete=" + nrBilete +
+                ", user=" + user +
+                '}';
     }
 }
