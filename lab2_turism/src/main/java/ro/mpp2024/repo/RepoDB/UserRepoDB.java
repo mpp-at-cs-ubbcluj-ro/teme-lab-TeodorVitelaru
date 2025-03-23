@@ -23,6 +23,29 @@ public class UserRepoDB implements UserRepo {
     }
 
     @Override
+    public User findByUsernameAndPassword(String username, String password) {
+        logger.traceEntry("finding user with username {} and password {}",username,password);
+        Connection con = dbUtils.getConnection();
+        try (PreparedStatement preStmt = con.prepareStatement("select * from Users where username=? and password=?")) {
+            preStmt.setString(1, username);
+            preStmt.setString(2, password);
+            try (ResultSet result = preStmt.executeQuery()) {
+                if (result.next()) {
+                    Long id = result.getLong("id");
+                    User user = new User(username, password);
+                    user.setId(id);
+                    logger.traceExit(user);
+                    return user;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error DB " + e);
+        }
+        logger.traceExit("null");
+        return null;
+    }
+
+    @Override
     public User findByUsername(String username) {
         logger.traceEntry("finding user with username {}",username);
         Connection con = dbUtils.getConnection();

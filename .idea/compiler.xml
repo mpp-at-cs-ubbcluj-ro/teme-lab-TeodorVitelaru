@@ -7,9 +7,9 @@
       <module name="IncercareGradle.test" target="23" />
       <module name="IncercareGradle_main" target="23" />
       <module name="IncercareGradle_test" target="23" />
-      <module name="lab2_turism" target="23" />
-      <module name="lab2_turism.main" target="23" />
-      <module name="lab2_turism.test" target="23" />
+      <module name="lab2_turism" target="22" />
+      <module name="lab2_turism.main" target="22" />
+      <module name="lab2_turism.test" target="22" />
       <module name="lab_bd" target="23" />
       <module name="lab_bd.main" target="23" />
       <module name="lab_bd.test" target="23" />

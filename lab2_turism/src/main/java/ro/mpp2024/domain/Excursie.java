@@ -8,12 +8,14 @@ public class Excursie extends Entity<Long> {
     private String firmaTransport;
     private LocalDateTime dataPlecarii;
     private Integer nrLocuriDisponibile;
+    private int pret;
 
-    public Excursie(String obiectiv, String firmaTransport, LocalDateTime dataPlecarii, Integer nrLocuriDisponibile) {
+    public Excursie(String obiectiv, String firmaTransport, LocalDateTime dataPlecarii, Integer nrLocuriDisponibile, int pret) {
         this.obiectiv = obiectiv;
         this.firmaTransport = firmaTransport;
         this.dataPlecarii = dataPlecarii;
         this.nrLocuriDisponibile = nrLocuriDisponibile;
+        this.pret = pret;
     }
 
     public Long getId() {
@@ -54,6 +56,14 @@ public class Excursie extends Entity<Long> {
 
     public void setNrLocuriDisponibile(Integer nrLocuriDisponibile) {
         this.nrLocuriDisponibile = nrLocuriDisponibile;
+    }
+
+    public int getPret() {
+        return pret;
+    }
+
+    public void setPret(int pret) {
+        this.pret = pret;
     }
 
     @Override

@@ -4,10 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.units.qual.C;
 import ro.mpp2024.domain.Client;
+import ro.mpp2024.domain.Excursie;
 import ro.mpp2024.domain.JdbcUtils;
 import ro.mpp2024.repo.ClientRepo;
 
 import java.sql.Connection;
+import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +23,28 @@ public class ClientRepoDB implements ClientRepo {
     public ClientRepoDB(Properties props) {
         logger.info("Initializing ClientRepoDB with properties: {} ",props);
         dbUtils = new JdbcUtils(props);
+    }
+
+    @Override
+    public Client findByNumeAndTelefon(String nume, String telefon) {
+        logger.traceEntry("finding clients with name {} and phone number {}",nume,telefon);
+        Connection con = dbUtils.getConnection();
+        try (var preStmt = con.prepareStatement("select * from clienti where nume=? and telefon=?")) {
+            preStmt.setString(1, nume);
+            preStmt.setString(2, telefon);
+            try (var result = preStmt.executeQuery()) {
+                while (result.next()) {
+                    var id = result.getLong("id");
+                    var client = new Client(nume, telefon);
+                    client.setId(id);
+                    return client;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error DB " + e);
+        }
+        logger.traceExit("null");
+        return null;
     }
 
     @Override
@@ -80,18 +105,25 @@ public class ClientRepoDB implements ClientRepo {
 
     @Override
     public Optional<Client> save(Client entity) {
-        logger.traceEntry("saving client {} ",entity);
+        logger.traceEntry("saving client {}",entity);
         Connection con = dbUtils.getConnection();
-        try (var preStmt = con.prepareStatement("insert into clienti (nume, telefon) values (?, ?)")) {
+        try (var preStmt = con.prepareStatement("insert into clienti (nume, telefon) values (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             preStmt.setString(1, entity.getNume());
             preStmt.setString(2, entity.getTelefon());
             preStmt.executeUpdate();
-            logger.info("Saved client {} ",entity);
+
+            try (var result = preStmt.getGeneratedKeys()) {
+                if (result.next()) {
+                    var id = result.getLong(1);
+                    entity.setId(id);
+                }
+            }
+            logger.traceExit(entity);
             return Optional.of(entity);
         } catch (Exception e) {
             System.out.println("Error DB " + e);
         }
-        logger.traceExit();
+        logger.traceExit("null");
         return Optional.empty();
     }
 
