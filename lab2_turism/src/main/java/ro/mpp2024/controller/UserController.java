@@ -121,6 +121,24 @@ public class UserController implements Observer<EntityChangeEvent> {
             int availableSeats = totalSeats - reservedSeats;
             return new SimpleIntegerProperty(availableSeats).asObject();
         });
+        tableView.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Excursie excursie, boolean empty) {
+                super.updateItem(excursie, empty);
+                if (excursie == null || empty) {
+                    setStyle("");
+                } else {
+                    int totalSeats = excursie.getNrLocuriDisponibile();
+                    int reservedSeats = rezervareService.getLocuriOcupateForExcursie(excursie);
+                    int availableSeats = totalSeats - reservedSeats;
+                    if (availableSeats == 0) {
+                        setStyle("-fx-background-color: red;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        });
         tableViewExcursie.setItems(modelExcursie);
     }
 
@@ -144,9 +162,13 @@ public class UserController implements Observer<EntityChangeEvent> {
                 dataExacta = LocalDate.now();
             }
 
+            if(inceput.compareTo(sfarsit) > 0) {
+                showMessage("Error", "Error", "Ora de inceput trebuie sa fie mai mica decat ora de sfarsit");
+                return;
+            }
+
             LocalDateTime inceputDate = LocalDateTime.of(dataExacta.getYear(), dataExacta.getMonth(), dataExacta.getDayOfMonth(), Integer.parseInt(inceput.split(":")[0]), 0);
             LocalDateTime sfarsitDate = LocalDateTime.of(dataExacta.getYear(), dataExacta.getMonth(), dataExacta.getDayOfMonth(), Integer.parseInt(sfarsit.split(":")[0]), 0);
-
 
             List<Excursie> excursies = excursieService.getAllExcursieByDestinationAndDate(obiectiv, inceputDate, sfarsitDate);
             model.setAll(excursies);
@@ -159,7 +181,7 @@ public class UserController implements Observer<EntityChangeEvent> {
             }
             tabelLabel.setText("Excursii pentru obiecvitul " + obiectiv + " intre " + inceput + " si " + sfarsit + " pe data de " + dataExacta);
         } catch (Exception e) {
-            System.out.println("Error populating table " + e);
+            showMessage("Error", "Error", e.getMessage());
         }
     }
 
