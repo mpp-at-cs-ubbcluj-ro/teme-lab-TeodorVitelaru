@@ -49,6 +49,7 @@ public class Main extends Application {
 
         initView(stage);
         stage.show();
+        stage.setTitle("Login");
 
         initView(stage);
 

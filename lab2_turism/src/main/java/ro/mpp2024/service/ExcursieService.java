@@ -9,6 +9,8 @@ import ro.mpp2024.utils.observer.Observer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class ExcursieService {
     private ExcursieRepo excursieRepo;
@@ -22,6 +24,17 @@ public class ExcursieService {
     public List<Excursie> getAllExcursieByDestinationAndDate(String destination, LocalDateTime date1, LocalDateTime date2) {
         try {
             return excursieRepo.findByDestinationAndDate(destination, date1, date2);
+        } catch (Exception e) {
+            System.out.println("Error finding excursie by destination " + e);
+        }
+        return null;
+    }
+
+    public List<Excursie> getAllExcursie() {
+        try {
+            Iterable<Excursie> iterable = excursieRepo.findAll();
+            return StreamSupport.stream(iterable.spliterator(), false)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             System.out.println("Error finding excursie by destination " + e);
         }

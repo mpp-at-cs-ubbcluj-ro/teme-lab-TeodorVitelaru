@@ -65,6 +65,29 @@ public class ExcursieRepoDB implements ExcursieRepo {
 
     @Override
     public Iterable<Excursie> findAll() {
+        logger.traceEntry("finding all excursii");
+        Connection con = dbUtils.getConnection();
+        List<Excursie> excursies = new ArrayList<>();
+        try (var preStmt = con.prepareStatement("select * from excursii");
+             var result = preStmt.executeQuery()) {
+            while (result.next()) {
+                var id = result.getLong("id");
+                var obiectiv = result.getString("obiectiv");
+                var firmaTransport = result.getString("firmaTransport");
+                var dataPlecarii = result.getString("dataPlecarii");
+                var nrLocuriDisponibile = result.getInt("nrLocuriDisponibile");
+                var pret = result.getInt("pret");
+                LocalDateTime dataPlecarii2 = LocalDateTime.parse(dataPlecarii, formatter);
+                Excursie excursie = new Excursie(obiectiv, firmaTransport, dataPlecarii2, nrLocuriDisponibile, pret);
+                excursie.setId(id);
+                excursies.add(excursie);
+            }
+            logger.traceExit(excursies);
+            return excursies;
+        } catch (Exception e) {
+            System.out.println("Error DB " + e);
+        }
+        logger.traceExit("null");
         return null;
     }
 

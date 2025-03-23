@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -46,7 +47,7 @@ public class LoginController {
             Stage loginStage = (Stage) loginButton.getScene().getWindow();
             loginStage.close();
         } else {
-            System.out.println("Invalid username or password");
+            showMessage("Error", "Invalid username or password", "Please enter a valid username and password");
         }
     }
 
@@ -59,11 +60,17 @@ public class LoginController {
             Stage stage = new Stage();
             stage.setTitle("User: "+user.getUsername());
             stage.setScene(new Scene(root));
-            stage.setWidth(800);
-            stage.setHeight(600);
             stage.show();
         } catch (Exception e) {
             System.out.println("Error opening user window " + e);
         }
+    }
+
+    public void showMessage(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

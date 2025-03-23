@@ -8,7 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
 import ro.mpp2024.domain.Client;
@@ -23,6 +26,7 @@ import ro.mpp2024.utils.events.ChangeEventType;
 import ro.mpp2024.utils.events.EntityChangeEvent;
 import ro.mpp2024.utils.observer.Observer;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,9 +37,11 @@ public class UserController implements Observer<EntityChangeEvent> {
     private ExcursieService excursieService;
     private RezervareService rezervareService;
     private ClientService clientService;
+    private UserService userService;
     private List<Excursie> excursies = new ArrayList<>();
 
     private ObservableList<Excursie> model = FXCollections.observableArrayList();
+    private ObservableList<Excursie> modelExcursie = FXCollections.observableArrayList();
 
 
     @FXML
@@ -45,8 +51,26 @@ public class UserController implements Observer<EntityChangeEvent> {
     @FXML
     private TextField obiectivTextField;
     @FXML
+    private DatePicker intervalDatePicker;
+    @FXML
     private Label tabelLabel;
 
+    //pentru toate excursiile
+    @FXML
+    private TableView<Excursie> tableViewExcursie;
+    @FXML
+    private TableColumn<Excursie, String> tableColumnObiectivTuristic;
+    @FXML
+    private TableColumn<Excursie, String> tableColumnFirma1;
+    @FXML
+    private TableColumn<Excursie, LocalDateTime> tableColumnOraPlecarii1;
+    @FXML
+    private TableColumn<Excursie, Integer> tableColumnPret1;
+    @FXML
+    private TableColumn<Excursie, Integer> tableColumnLocuriDisponibile1;
+
+
+    //pentru excursiile alese
     @FXML
     private TableView<Excursie> tableView;
     @FXML
@@ -74,9 +98,30 @@ public class UserController implements Observer<EntityChangeEvent> {
         this.excursieService = excursieService;
         this.rezervareService = rezervareService;
         this.clientService = clientService;
+        this.userService = userService;
         this.rezervareService.addObserver(this);
 
         initilizeComboBox();
+        initModelExcursie();
+    }
+
+    private void initModelExcursie() {
+        modelExcursie.setAll(excursieService.getAllExcursie());
+        initTableExcursie();
+    }
+
+    private void initTableExcursie() {
+        tableColumnObiectivTuristic.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getObiectiv()));
+        tableColumnFirma1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirmaTransport()));
+        tableColumnPret1.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getPret()).asObject());
+        tableColumnOraPlecarii1.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDataPlecarii()));
+        tableColumnLocuriDisponibile1.setCellValueFactory(cellData -> {
+            int totalSeats = cellData.getValue().getNrLocuriDisponibile();
+            int reservedSeats = rezervareService.getLocuriOcupateForExcursie(cellData.getValue());
+            int availableSeats = totalSeats - reservedSeats;
+            return new SimpleIntegerProperty(availableSeats).asObject();
+        });
+        tableViewExcursie.setItems(modelExcursie);
     }
 
     public void initilizeComboBox() {
@@ -92,15 +137,27 @@ public class UserController implements Observer<EntityChangeEvent> {
             String obiectiv = obiectivTextField.getText();
             String inceput = inceputComboBox.getValue();
             String sfarsit = sfarsitComboBox.getValue();
+            LocalDate dataExacta = intervalDatePicker.getValue();
 
-            LocalDateTime inceputDate = LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), Integer.parseInt(inceput.split(":")[0]), 0);
-            LocalDateTime sfarsitDate = LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), Integer.parseInt(sfarsit.split(":")[0]), 0);
+            if(dataExacta == null) {
+                showMessage("Information", "Nu ati ales data", "Data implicita adaugata este cea de azi");
+                dataExacta = LocalDate.now();
+            }
+
+            LocalDateTime inceputDate = LocalDateTime.of(dataExacta.getYear(), dataExacta.getMonth(), dataExacta.getDayOfMonth(), Integer.parseInt(inceput.split(":")[0]), 0);
+            LocalDateTime sfarsitDate = LocalDateTime.of(dataExacta.getYear(), dataExacta.getMonth(), dataExacta.getDayOfMonth(), Integer.parseInt(sfarsit.split(":")[0]), 0);
+
+
             List<Excursie> excursies = excursieService.getAllExcursieByDestinationAndDate(obiectiv, inceputDate, sfarsitDate);
             model.setAll(excursies);
             this.excursies = excursies;
             tableView.setItems(model);
             initTable();
-            tabelLabel.setText("Excursii pentru obiecvitul " + obiectiv + " intre " + inceput + " si " + sfarsit);
+            if(excursies.size() == 0) {
+                showMessage("Information", "Nu exista excursii", "Nu exista excursii pentru obiectivul " + obiectiv + " intre " + inceput + " si " + sfarsit + " pe data de " + dataExacta);
+                return;
+            }
+            tabelLabel.setText("Excursii pentru obiecvitul " + obiectiv + " intre " + inceput + " si " + sfarsit + " pe data de " + dataExacta);
         } catch (Exception e) {
             System.out.println("Error populating table " + e);
         }
@@ -153,6 +210,7 @@ public class UserController implements Observer<EntityChangeEvent> {
         String nrBileteText = nrBileteField.getText();
         if (!nrBileteText.matches("\\d+")) {
             showMessage("Error", "Error", "Introduceti un numar valid pentru nr bilete");
+            nrBileteField.setText("");
             return;
         }
         int nrBilete = Integer.parseInt(nrBileteField.getText());
@@ -167,7 +225,7 @@ public class UserController implements Observer<EntityChangeEvent> {
         int locuriDisponibile = excursie.getNrLocuriDisponibile();
         int locuriOcupate = rezervareService.getLocuriOcupateForExcursie(excursie);
         if(locuriOcupate + nrBilete > locuriDisponibile) {
-            showMessage("Error", "Error", "Nu sunt suficiente locuri disponibile. Nr maxim de locuri disponibile este: " + (locuriDisponibile - locuriOcupate));
+            showMessage("Error", "Locuri indisponibile", "Nu sunt suficiente locuri disponibile. Nr maxim de locuri disponibile este: " + (locuriDisponibile - locuriOcupate));
             return;
         }
         rezervareService.addRezervare(excursie, client, nrBilete, loggedInUser);
@@ -175,6 +233,10 @@ public class UserController implements Observer<EntityChangeEvent> {
 
 
         showMessage("Success", "Success", String.join("\n", listOfTask));
+
+        numeClientField.setText("");
+        telefonField.setText("");
+        nrBileteField.setText("");
 
     }
 
@@ -192,11 +254,22 @@ public class UserController implements Observer<EntityChangeEvent> {
             if(entityChangeEvent.getData() instanceof Rezervare) {
                 model.setAll(excursies);
                 tableView.setItems(model);
+
+                modelExcursie.setAll(excursieService.getAllExcursie());
+                tableViewExcursie.setItems(modelExcursie);
             }
         }
     }
 
-    public void handelLogout(ActionEvent actionEvent) {
+    public void handelLogout(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginView.fxml"));
+        AnchorPane root = loader.load();
+        LoginController loginController = loader.getController();
+        loginController.setService(userService, excursieService, rezervareService, clientService);
+        Stage stage = new Stage();
+        stage.setTitle("Login");
+        stage.setScene(new Scene(root));
+        stage.show();
         logoutButton.getScene().getWindow().hide();
         
     }
