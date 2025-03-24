@@ -143,6 +143,8 @@ public class UserController implements Observer<EntityChangeEvent> {
     }
 
     public void initilizeComboBox() {
+        inceputComboBox.getItems().add("Ora start");
+        sfarsitComboBox.getItems().add("Ora sfarsit");
         for (int hour = 0; hour < 24; hour++) {
             String time = String.format("%02d:00", hour);
             inceputComboBox.getItems().add(time);
@@ -157,14 +159,22 @@ public class UserController implements Observer<EntityChangeEvent> {
             String sfarsit = sfarsitComboBox.getValue();
             LocalDate dataExacta = intervalDatePicker.getValue();
 
+            if(inceput.compareTo(sfarsit) > 0) {
+                showMessage("Error", "Error", "Ora de inceput trebuie sa fie mai mica decat ora de sfarsit");
+                inceputComboBox.setValue("Ora start");
+                sfarsitComboBox.setValue("Ora sfarsit");
+                return;
+            } else if(inceput.equals("Ora start") || sfarsit.equals("Ora inceput")) {
+                showMessage("Error", "Error", "Alegeti o ora de inceput si o ora de sfarsit");
+                return;
+            } else if(obiectiv.equals("")) {
+                showMessage("Error", "Error", "Introduceti un obiectiv turistic");
+                return;
+            }
+
             if(dataExacta == null) {
                 showMessage("Information", "Nu ati ales data", "Data implicita adaugata este cea de azi");
                 dataExacta = LocalDate.now();
-            }
-
-            if(inceput.compareTo(sfarsit) > 0) {
-                showMessage("Error", "Error", "Ora de inceput trebuie sa fie mai mica decat ora de sfarsit");
-                return;
             }
 
             LocalDateTime inceputDate = LocalDateTime.of(dataExacta.getYear(), dataExacta.getMonth(), dataExacta.getDayOfMonth(), Integer.parseInt(inceput.split(":")[0]), 0);
