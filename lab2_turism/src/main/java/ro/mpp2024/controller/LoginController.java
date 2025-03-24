@@ -16,6 +16,7 @@ import ro.mpp2024.service.ExcursieService;
 import ro.mpp2024.service.RezervareService;
 import ro.mpp2024.service.UserService;
 import javafx.scene.control.TextField;
+import ro.mpp2024.utils.encrypt.Crypter;
 
 public class LoginController {
     UserService userService;
@@ -39,16 +40,24 @@ public class LoginController {
 
     public void handleLogin(ActionEvent actionEvent) {
         String username = usernameTextField.getText();
-        String password = passwordTextField.getText();
-        User user = userService.findUser(username, password);
-        if (user != null) {
-            openUserWindow(user);
-            //inchidem fereastra de login
-            Stage loginStage = (Stage) loginButton.getScene().getWindow();
-            loginStage.close();
-        } else {
+        String passwordString = passwordTextField.getText();
+
+        try{
+            String password = Crypter.encrypt(passwordString, "a1b2c3d4e5f6g7h8");
+            User user = userService.findUser(username, password);
+            if (user != null) {
+                openUserWindow(user);
+                //inchidem fereastra de login
+                Stage loginStage = (Stage) loginButton.getScene().getWindow();
+                loginStage.close();
+            } else {
+                showMessage("Error", "Invalid username or password", "Please enter a valid username and password");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             showMessage("Error", "Invalid username or password", "Please enter a valid username and password");
         }
+
     }
 
     public void openUserWindow(User user) {
