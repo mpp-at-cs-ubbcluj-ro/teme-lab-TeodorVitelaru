@@ -2,20 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="IncercareGradle" target="23" />
-      <module name="IncercareGradle.main" target="23" />
-      <module name="IncercareGradle.test" target="23" />
       <module name="IncercareGradle_main" target="23" />
       <module name="IncercareGradle_test" target="23" />
-      <module name="lab2_turism" target="22" />
-      <module name="lab2_turism.main" target="22" />
-      <module name="lab2_turism.test" target="22" />
-      <module name="lab_bd" target="23" />
-      <module name="lab_bd.main" target="23" />
-      <module name="lab_bd.test" target="23" />
       <module name="lab_bd_2" target="23" />
       <module name="lab_bd_2.main" target="23" />
       <module name="lab_bd_2.test" target="23" />
+      <module name="lab_spring" target="17" />
+      <module name="lab_spring.main" target="17" />
+      <module name="lab_spring.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

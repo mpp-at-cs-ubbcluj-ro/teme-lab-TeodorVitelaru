@@ -121,7 +121,7 @@ public class UserController implements Observer<EntityChangeEvent> {
             int availableSeats = totalSeats - reservedSeats;
             return new SimpleIntegerProperty(availableSeats).asObject();
         });
-        tableView.setRowFactory(tv -> new TableRow<>() {
+        tableViewExcursie.setRowFactory(tv -> new TableRow<>() {
             @Override
             protected void updateItem(Excursie excursie, boolean empty) {
                 super.updateItem(excursie, empty);

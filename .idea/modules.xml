@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.main.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IncercareGradle.test.iml" filepath="$PROJECT_DIR$/.idea/modules/IncercareGradle.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lab2_turism.iml" filepath="$PROJECT_DIR$/lab2_turism.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab2_turism.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lab2_turism.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab2_turism.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lab2_turism.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lab_bd.iml" filepath="$PROJECT_DIR$/lab_bd.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab_bd.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lab_bd.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab_bd.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lab_bd.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/teme-lab-TeodorVitelaru.iml" filepath="$PROJECT_DIR$/.idea/teme-lab-TeodorVitelaru.iml" />
     </modules>
   </component>
