@@ -99,7 +99,7 @@ public class TurismServicesImpl implements ITurismServices {
         Rezervare rezervare = new Rezervare(excursie, client, nrBilete, user);
         Optional<Rezervare> rezervareOutput = rezervareRepo.save(rezervare);
         logger.info("Rezervare added successfully.");
-        notifyForRezervation(rezervareOutput.get());
+        //notifyForRezervation(rezervareOutput.get());
         return rezervareOutput.get();
     }
 

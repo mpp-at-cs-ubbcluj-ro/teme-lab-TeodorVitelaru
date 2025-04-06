@@ -49,10 +49,11 @@ public class TurismClientRpcWorker implements Runnable, ITurismObserver {
                 if (response!=null){
                     sendResponse(response);
                 }
-            } catch (IOException|ClassNotFoundException e) {
-                logger.info("Connection closed "+connected);
+            } catch (IOException | ClassNotFoundException e) {
+                logger.error(e.getMessage());
                 logger.error(e);
                 logger.error(e.getStackTrace());
+                connected = false;
             }
             try {
                 Thread.sleep(1000);

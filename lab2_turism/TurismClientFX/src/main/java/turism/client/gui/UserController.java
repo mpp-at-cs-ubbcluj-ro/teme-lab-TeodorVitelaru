@@ -370,21 +370,12 @@ public class UserController implements Initializable, ITurismObserver {
     public void rezervareReceived(Rezervare rezervare) {
        Platform.runLater(() -> {
            //locuriOcupateCache.remove(rezervare.getExcursie().getId());
-           showMessage("Rezervare primita", "Rezervare primita", "Rezervare primita: " + rezervare);
+          // showMessage("Rezervare primita", "Rezervare primita", "Rezervare primita: " + rezervare);
+            logger.info("Rezervare primita: " + rezervare);
         });
     }
 
     public void clientReceived(Client client) {
-        Platform.runLater(() -> {
-            try {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Client");
-                alert.setHeaderText("Client primit");
-                alert.setContentText("Client primit: " + client);
-                alert.showAndWait();
-            } catch (Exception e) {
-                logger.error("Error showing client alert: " + e.getMessage());
-            }
-        });
+
     }
 }

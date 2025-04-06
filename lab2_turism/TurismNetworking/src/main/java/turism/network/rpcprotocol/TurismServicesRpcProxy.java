@@ -262,9 +262,9 @@ public class TurismServicesRpcProxy implements ITurismServices {
     }
 
     private void handleUpdate(Response response){
-
         if(response.type() == ResponseType.NEW_REZERVARE){
             Rezervare rezervare = (Rezervare) response.data();
+            logger.debug("New rezervare received "+rezervare);
             try {
                 client.rezervareReceived(rezervare);
             } catch (Exception e) {
