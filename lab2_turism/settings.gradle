@@ -1,0 +1,9 @@
+rootProject.name = 'lab2_turism'
+include 'TurismClientFX'
+include 'TurismModel'
+include 'TurismModel'
+include 'TurismNetworking'
+include 'TurismServices'
+include 'TurismPersistence'
+include 'TurismServer'
+

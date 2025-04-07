@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="497.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turism.client.gui.UserController">
+   <children>
+      <TableView fx:id="tableView" layoutX="33.0" layoutY="293.0" prefHeight="163.0" prefWidth="398.0">
+        <columns>
+          <TableColumn fx:id="tableColumnFirma" prefWidth="99.20001220703125" text="Firma Transport" />
+          <TableColumn fx:id="tableColumnPret" prefWidth="55.999969482421875" text="Pret" />
+            <TableColumn fx:id="tableColumnOraPlecarii" prefWidth="124.800048828125" text="Ora plecarii" />
+            <TableColumn fx:id="tableColumnLocuriDisponibile" prefWidth="116.00003662109373" text="Locuri Disponibile" />
+        </columns>
+      </TableView>
+      <Label layoutX="578.0" layoutY="114.0" text="Nume Obiectiv:" />
+      <Label layoutX="580.0" layoutY="152.0" text="Interval Orar:" />
+      <ComboBox fx:id="inceputComboBox" layoutX="678.0" layoutY="148.0" prefHeight="18.0" prefWidth="90.0" promptText="Ora start" />
+      <ComboBox fx:id="sfarsitComboBox" layoutX="778.0" layoutY="148.0" prefHeight="0.0" prefWidth="98.0" promptText="Ora sfarsit" />
+      <Button fx:id="showExcursieButton" layoutX="641.0" layoutY="222.0" mnemonicParsing="false" onAction="#populateTable" prefHeight="26.0" prefWidth="164.0" text="Arata excursii" />
+      <TextField fx:id="obiectivTextField" layoutX="676.0" layoutY="110.0" prefHeight="26.0" prefWidth="198.0" />
+      <Label fx:id="tabelLabel" layoutX="33.0" layoutY="266.0" prefHeight="18.0" prefWidth="398.0" text="Nicio excursie cautata" />
+      <Label layoutX="681.0" layoutY="286.0" text="Pentru Rezervari:" />
+      <Label layoutX="674.0" layoutY="72.0" text="Pentru cautare:" />
+      <TextField fx:id="numeClientField" layoutX="681.0" layoutY="320.0" prefHeight="26.0" prefWidth="107.0" />
+      <Label layoutX="584.0" layoutY="322.0" text="Nume client:" />
+      <Label layoutX="584.0" layoutY="356.0" text="Nr. telefon:" />
+      <TextField fx:id="telefonField" layoutX="681.0" layoutY="353.0" prefHeight="26.0" prefWidth="107.0" />
+      <Label layoutX="581.0" layoutY="392.0" text="Nr bilete dorite:" />
+      <TextField fx:id="nrBileteField" layoutX="681.0" layoutY="389.0" prefHeight="26.0" prefWidth="107.0" />
+      <Button fx:id="rezervareButton" layoutX="644.0" layoutY="428.0" mnemonicParsing="false" onAction="#handleAddRezervare" prefHeight="26.0" prefWidth="164.0" text="Adauga rezervare" />
+      <Button fx:id="logoutButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handelLogout" text="Logout" />
+      <DatePicker fx:id="intervalDatePicker" layoutX="581.0" layoutY="183.0" prefHeight="26.0" prefWidth="295.0" />
+      <TableView fx:id="tableViewExcursie" layoutX="33.0" layoutY="97.0" prefHeight="154.0" prefWidth="512.0">
+         <columns>
+            <TableColumn fx:id="tableColumnObiectivTuristic" prefWidth="99.20001220703125" text="Obiectiv Turistic" />
+            <TableColumn fx:id="tableColumnFirma1" prefWidth="104.0" text="Firma transport" />
+            <TableColumn fx:id="tableColumnOraPlecarii1" prefWidth="115.20002746582031" text="Ora plecarii" />
+            <TableColumn fx:id="tableColumnPret1" text="Pret" />
+            <TableColumn fx:id="tableColumnLocuriDisponibile1" prefWidth="116.00003662109373" text="Locuri Disponibile" />
+         </columns>
+      </TableView>
+      <Label fx:id="tabelLabel1" layoutX="33.0" layoutY="70.0" prefHeight="18.0" prefWidth="398.0" text="Excursii disponibile" />
+   </children>
+</AnchorPane>
