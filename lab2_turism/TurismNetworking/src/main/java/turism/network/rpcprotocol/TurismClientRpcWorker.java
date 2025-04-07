@@ -50,17 +50,19 @@ public class TurismClientRpcWorker implements Runnable, ITurismObserver {
                     sendResponse(response);
                 }
             } catch (IOException | ClassNotFoundException e) {
-                logger.error(e.getMessage());
                 logger.error(e);
                 logger.error(e.getStackTrace());
                 connected = false;
             }
+            /*
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 logger.error(e);
                 logger.error(e.getStackTrace());
             }
+
+             */
         }
         try {
             input.close();
@@ -137,8 +139,9 @@ public class TurismClientRpcWorker implements Runnable, ITurismObserver {
         } else if(request.type() == RequestType.SEND_REZERVARE){
             logger.debug("SEND_REZERVARE request");
             List<Object> params = (List<Object>) request.data();
+            Rezervare rezervare;
             try {
-                Rezervare rezervare = server.addRezervare((Excursie) params.get(0), (Client) params.get(1), (int) params.get(2), (User) params.get(3));
+                rezervare = server.addRezervare((Excursie) params.get(0), (Client) params.get(1), (int) params.get(2), (User) params.get(3));
                 response = new Response.Builder()
                         .type(ResponseType.NEW_REZERVARE)
                         .data(rezervare)

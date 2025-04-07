@@ -99,7 +99,7 @@ public class TurismServicesImpl implements ITurismServices {
         Rezervare rezervare = new Rezervare(excursie, client, nrBilete, user);
         Optional<Rezervare> rezervareOutput = rezervareRepo.save(rezervare);
         logger.info("Rezervare added successfully.");
-        //notifyForRezervation(rezervareOutput.get());
+        notifyForRezervation(rezervareOutput.get());
         return rezervareOutput.get();
     }
 
@@ -125,22 +125,29 @@ public class TurismServicesImpl implements ITurismServices {
         logger.info("User {} logged out successfully.", user.getUsername());
     }
 
-    private final int defaultThreadsNo = 3;
+    private final int defaultThreadsNo = 1;
     private void notifyForRezervation(Rezervare rezervare){
         logger.info("Notifying for rezervare {}", rezervare);
         ExecutorService executor = Executors.newFixedThreadPool(defaultThreadsNo);
         for (Map.Entry<Long, ITurismObserver> entry : loggedUsers.entrySet()) {
             Long userId = entry.getKey();
             ITurismObserver observer = entry.getValue();
-            executor.execute(() -> {
-                try {
-                    logger.debug("Notifying user {} about rezervare {}, comparandu se {} cu {}", userId, rezervare, userId, rezervare.getUser().getId());
-                    observer.rezervareReceived(rezervare);
-                } catch (Exception e) {
-                    logger.error("Error notifying user {} about rezervare {}", userId, e);
-                }
-            });
+            if(!Objects.equals(userId, rezervare.getUser().getId())){
+                executor.execute(() -> {
+                    try {
+                        logger.debug("Notifying user {} about rezervare {}, comparandu se {} cu {}", userId, rezervare, userId, rezervare.getUser().getId());
+                        observer.rezervareReceived(rezervare);
+                    } catch (Exception e) {
+                        logger.error("Error notifying user {} about rezervare {}", userId, e);
+                    }
+                });
+            }
+
         }
         executor.shutdown();
+    }
+
+    public Map<Long, ITurismObserver> getAllClientsConnected() {
+        return loggedUsers;
     }
 }

@@ -52,7 +52,7 @@ public class TurismServicesRpcProxy implements ITurismServices {
             closeConnection();
             throw new Exception(err);
         }
-        if (response.type()==ResponseType.OK){
+        if (response.type()==ResponseType.NEW_CLIENT){
             Client client1=(Client)response.data();
             return client1;
         }
@@ -138,13 +138,11 @@ public class TurismServicesRpcProxy implements ITurismServices {
     }
 
 
-    private Map<Excursie, Integer> locuriOcupateCache = new HashMap<>();
-
     public int getLocuriOcupateForExcursie(Excursie excursie) throws Exception {
         //initializeConnection();
         Request request=new Request.Builder().type(RequestType.GET_LOCURI_OCUPATE).data(excursie).build();
         sendRequest(request);
-        logger.info("sendin request for locuri ocupate {}",excursie);
+        logger.info("sending request for locuri ocupate {}",request);
         Response response=readResponse();
         if (response.type()==ResponseType.ERROR){
             String err = (String)response.data();
@@ -152,7 +150,6 @@ public class TurismServicesRpcProxy implements ITurismServices {
         }
         if (response.type()==ResponseType.OK){
             int locuriOcupate=(int)response.data();
-            locuriOcupateCache.put(excursie, locuriOcupate);
             return locuriOcupate;
         }
         throw new Exception("Error getting locuri ocupate");
@@ -164,6 +161,7 @@ public class TurismServicesRpcProxy implements ITurismServices {
         List<Object> data=List.of(excursie,client,nrBilete,user);
         Request request=new Request.Builder().type(RequestType.SEND_REZERVARE).data(data).build();
         sendRequest(request);
+        /*
         Response response=readResponse();
         if (response.type()==ResponseType.ERROR){
             String err = (String)response.data();
@@ -171,10 +169,14 @@ public class TurismServicesRpcProxy implements ITurismServices {
         }
         if (response.type()==ResponseType.NEW_REZERVARE){
             Rezervare rezervare=(Rezervare)response.data();
+            logger.debug("Rezervare added in proxy{}",rezervare);
             return rezervare;
         }
+        logger.info("Response type: {}", response.type());
         throw new Exception("Error adding rezervare");
 
+         */
+        return null;
     }
 
     public User login(User user, ITurismObserver client) throws Exception {
@@ -234,6 +236,7 @@ public class TurismServicesRpcProxy implements ITurismServices {
 
     private Response readResponse() throws Exception {
         Response response=null;
+        logger.debug("Waiting for response");
         try{
             response=qresponses.take();
             logger.debug("response received in proxy "+response);
@@ -275,7 +278,7 @@ public class TurismServicesRpcProxy implements ITurismServices {
 
 
     private boolean isUpdate(Response response){
-        return response.type()== ResponseType.NEW_REZERVARE || response.type()== ResponseType.NEW_CLIENT;
+        return response.type()== ResponseType.NEW_REZERVARE;
     }
 
     private class ReaderThread implements Runnable{
@@ -284,18 +287,21 @@ public class TurismServicesRpcProxy implements ITurismServices {
                 try {
                     Object response=input.readObject();
                     logger.debug("response received "+response);
-                    if(isUpdate((Response)response)){
-                        handleUpdate((Response) response);
-                    } else{
                     try {
-                        qresponses.put((Response)response);
+                        if(isUpdate((Response)response)) {
+                            handleUpdate((Response) response);
+                        } else {
+                            qresponses.put((Response) response);
+                        }
+
                     } catch (InterruptedException e) {
                         logger.error(e);
                         logger.error(e.getStackTrace());
-                    }
+                        Thread.currentThread().interrupt();
                     }
                 } catch (IOException|ClassNotFoundException e) {
                     logger.error("Reading error "+e);
+                    finished = true;
                 }
             }
         }
