@@ -143,7 +143,7 @@ public class TurismClientRpcWorker implements Runnable, ITurismObserver {
             try {
                 rezervare = server.addRezervare((Excursie) params.get(0), (Client) params.get(1), (int) params.get(2), (User) params.get(3));
                 response = new Response.Builder()
-                        .type(ResponseType.NEW_REZERVARE)
+                        .type(ResponseType.OK)
                         .data(rezervare)
                         .build();
             } catch (Exception e) {
@@ -213,7 +213,7 @@ public class TurismClientRpcWorker implements Runnable, ITurismObserver {
                         .data(e.getMessage())
                         .build();
             }
-        } else if(request.type() == RequestType.SEND_CLIENT){
+            } else if(request.type() == RequestType.SEND_CLIENT){
             try {
                 Client client = server.addClient((Client) request.data());
                 response = new Response.Builder()

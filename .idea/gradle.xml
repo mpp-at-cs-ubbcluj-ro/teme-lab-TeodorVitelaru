@@ -18,6 +18,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/lab2_turism" />
+            <option value="$PROJECT_DIR$/lab2_turism/TurismClientFX" />
+            <option value="$PROJECT_DIR$/lab2_turism/TurismModel" />
+            <option value="$PROJECT_DIR$/lab2_turism/TurismNetworking" />
+            <option value="$PROJECT_DIR$/lab2_turism/TurismPersistence" />
+            <option value="$PROJECT_DIR$/lab2_turism/TurismServer" />
+            <option value="$PROJECT_DIR$/lab2_turism/TurismServices" />
           </set>
         </option>
       </GradleProjectSettings>

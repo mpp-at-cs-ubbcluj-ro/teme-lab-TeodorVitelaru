@@ -114,10 +114,11 @@ public class UserController implements Initializable, ITurismObserver {
 
     private void initModelExcursie() {
         try{
+
             modelExcursie.setAll(server.getAllExcursie());
             initTableExcursie();
         } catch (Exception e) {
-            logger.error("Error initializing modelExcursie: " + e.getMessage());
+            logger.error("Error initializing modelExcursie: " + e.getLocalizedMessage());
             showMessage("Error", "Error", e.getMessage());
         }
     }
@@ -371,9 +372,6 @@ public class UserController implements Initializable, ITurismObserver {
 
     public void rezervareReceived(Rezervare rezervare) {
        Platform.runLater(() -> {
-            if(!Objects.equals(rezervare.getUser().getId(), loggedInUser.getId())) {
-                logger.info("Rezervare primita in userController: {} {}" + rezervare, rezervare.getClient().getId(), loggedInUser.getId());
-            }
             locuriOcupateCache.remove(rezervare.getExcursie().getId());
             initTableExcursie();
             initTable();

@@ -161,22 +161,19 @@ public class TurismServicesRpcProxy implements ITurismServices {
         List<Object> data=List.of(excursie,client,nrBilete,user);
         Request request=new Request.Builder().type(RequestType.SEND_REZERVARE).data(data).build();
         sendRequest(request);
-        /*
+
         Response response=readResponse();
         if (response.type()==ResponseType.ERROR){
             String err = (String)response.data();
             throw new Exception(err);
         }
-        if (response.type()==ResponseType.NEW_REZERVARE){
+        if (response.type()==ResponseType.OK){
             Rezervare rezervare=(Rezervare)response.data();
             logger.debug("Rezervare added in proxy{}",rezervare);
             return rezervare;
         }
         logger.info("Response type: {}", response.type());
         throw new Exception("Error adding rezervare");
-
-         */
-        return null;
     }
 
     public User login(User user, ITurismObserver client) throws Exception {

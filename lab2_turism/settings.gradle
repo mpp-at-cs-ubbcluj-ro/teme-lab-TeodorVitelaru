@@ -6,4 +6,5 @@ include 'TurismNetworking'
 include 'TurismServices'
 include 'TurismPersistence'
 include 'TurismServer'
+include 'protoModule'
 

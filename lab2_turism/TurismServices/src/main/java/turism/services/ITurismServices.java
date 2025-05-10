@@ -15,7 +15,7 @@ public interface ITurismServices {
     public List<Excursie> getAllExcursieByDestinationAndDate(String destination, LocalDateTime date1, LocalDateTime date2) throws Exception;
     public List<Excursie> getAllExcursie() throws Exception;
     public List<Rezervare> getRezervariByExcursie(Excursie excursie) throws Exception;
-    List<Rezervare> getAllRezervari() throws Exception;
+    public List<Rezervare> getAllRezervari() throws Exception;
     public int getLocuriOcupateForExcursie(Excursie excursie) throws Exception;
     Rezervare addRezervare(Excursie excursie, Client client, int nrBilete, User user) throws Exception;
     public User login(User user, ITurismObserver client) throws Exception;

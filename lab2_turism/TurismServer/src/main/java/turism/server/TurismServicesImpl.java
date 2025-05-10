@@ -125,7 +125,7 @@ public class TurismServicesImpl implements ITurismServices {
         logger.info("User {} logged out successfully.", user.getUsername());
     }
 
-    private final int defaultThreadsNo = 1;
+    private final int defaultThreadsNo = 3;
     private void notifyForRezervation(Rezervare rezervare){
         logger.info("Notifying for rezervare {}", rezervare);
         ExecutorService executor = Executors.newFixedThreadPool(defaultThreadsNo);
