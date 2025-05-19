@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="IncercareGradle_main" target="23" />
+      <module name="IncercareGradle_test" target="23" />
+      <module name="lab_bd_2" target="23" />
+      <module name="lab_bd_2.main" target="23" />
+      <module name="lab_bd_2.test" target="23" />
+      <module name="lab_spring" target="17" />
+      <module name="lab_spring.main" target="17" />
+      <module name="lab_spring.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

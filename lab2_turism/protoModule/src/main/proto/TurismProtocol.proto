@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+option csharp_namespace = "TurismGrpc";
+option java_package = "turism.network.grpc";
+option java_multiple_files = true;
+option java_outer_classname = "TurismProto";
+
+package turism;
+
+// Service definition
+service TurismService {
+  // User operations
+  rpc Login (UserRequest) returns (UserResponse);
+  rpc Logout (UserRequest) returns (Empty);
+
+  // Excursie operations
+  rpc GetAllExcursii (Empty) returns (ExcursiiResponse);
+  rpc GetExcursiiByDestinationAndDate (DestinationDateRequest) returns (ExcursiiResponse);
+  rpc GetLocuriOcupate (ExcursieRequest) returns (LocuriOcupateResponse);
+
+  // Rezervare operations
+  rpc AddRezervare (RezervareRequest) returns (RezervareResponse);
+  rpc GetRezervariByExcursie (ExcursieRequest) returns (RezervariResponse);
+
+  // Client operations
+  rpc AddClient (ClientRequest) returns (ClientResponse);
+  rpc FindClientByNameAndPhone (ClientSearchRequest) returns (ClientResponse);
+
+  // Notification stream (server to client)
+  rpc SubscribeToNotifications (NotificationRequest) returns (stream Notification);
+}
+
+// Empty message for requests/responses with no parameters
+message Empty {}
+
+// User related messages
+message UserRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message UserResponse {
+  string id = 1;
+  string username = 2;
+  string password = 3; // Consider if you really want to send passwords
+  bool success = 4;
+  string error_message = 5;
+}
+
+// Excursie related messages
+message Excursie {
+  string id = 1;  // ID pentru excursie
+  string obiectiv = 2;
+  string firma_transport = 3;
+  string data_plecare = 4;
+  int32 pret = 5;
+  int32 nr_locuri = 6;
+}
+
+message ExcursieRequest {
+  string excursie_id = 1; // ID-ul excursiei pentru care se face cererea
+}
+
+message ExcursiiResponse {
+  repeated Excursie excursii = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+message DestinationDateRequest {
+  string destination = 1;
+  string date1 = 2; // ISO format datetime string
+  string date2 = 3; // ISO format datetime string
+}
+
+message LocuriOcupateResponse {
+  int32 locuri_ocupate = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Client related messages
+message Client {
+  string id = 1;  // ID pentru client
+  string name = 2;
+  string phone_number = 3;
+}
+
+message ClientRequest {
+  Client client = 1;
+}
+
+message ClientResponse {
+  Client client = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+message ClientSearchRequest {
+  string name = 1;
+  string phone_number = 2;
+}
+
+// Rezervare related messages
+message Rezervare {
+  string id = 1;  // ID pentru rezervare
+  string excursie_id = 2; // ID-ul excursiei pentru rezervare
+  Client client = 3; // ID-ul clientului care a facut rezervarea
+  int32 nr_bilete = 4;
+  string user_id = 5; // ID-ul utilizatorului care a facut rezervarea
+}
+
+message RezervareRequest {
+  string excursie_id = 1;  // ID-ul excursiei pentru rezervare
+  Client client = 2;  // ID-ul clientului
+  int32 nr_bilete = 3;
+  UserRequest user = 4;
+}
+
+message RezervareResponse {
+  Rezervare rezervare = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+message RezervariResponse {
+  repeated Rezervare rezervari = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Notification related messages
+message NotificationRequest {
+  string user_id = 1;
+}
+
+message Notification {
+  enum NotificationType {
+    NEW_REZERVARE = 0;
+    NEW_CLIENT = 1;
+  }
+
+  NotificationType type = 1;
+  oneof data {
+    Rezervare rezervare = 2;
+    Client client = 3;
+  }
+}
