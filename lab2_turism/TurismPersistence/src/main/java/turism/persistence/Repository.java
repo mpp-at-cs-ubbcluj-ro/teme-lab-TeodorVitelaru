@@ -2,11 +2,11 @@ package turism.persistence;
 
 
 
-import turism.model.Entity;
+import turism.model.MyEntity;
 
 import java.util.Optional;
 
-public interface Repository<ID, E extends Entity<ID>> {
+public interface Repository<ID, E extends MyEntity<ID>> {
     /**
      * @param id - the id of the entity to be returned
      *           id must not be null

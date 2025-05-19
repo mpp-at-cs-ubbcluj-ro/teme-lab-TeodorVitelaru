@@ -2,7 +2,7 @@ package turism.model;
 
 import java.io.Serializable;
 
-public class Entity<ID> implements Serializable {
+public class MyEntity<ID> implements Serializable {
 
     private ID id;
     public ID getId() {

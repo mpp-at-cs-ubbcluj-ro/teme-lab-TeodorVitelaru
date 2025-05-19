@@ -2,7 +2,7 @@ package turism.model;
 
 import java.io.Serializable;
 
-public class Rezervare extends Entity<Long> implements Serializable {
+public class Rezervare extends MyEntity<Long> implements Serializable {
     private Long id;
     private Excursie excursie;
     private Client client;

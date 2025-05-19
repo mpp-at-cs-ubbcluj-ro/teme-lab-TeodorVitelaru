@@ -1,10 +1,13 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.SessionFactory;
 import turism.network.utils.TurismRpcConcurrentServer;
 import turism.persistence.ClientRepo;
 import turism.persistence.ExcursieRepo;
 import turism.persistence.RezervareRepo;
 import turism.persistence.UserRepo;
+import turism.persistence.ormRepo.ExcursieRepoORM;
+import turism.persistence.ormRepo.UserRepoORM;
 import turism.persistence.repository.ClientRepoDB;
 import turism.persistence.repository.ExcursieRepoDB;
 import turism.persistence.repository.RezervareRepoDB;
@@ -12,6 +15,7 @@ import turism.persistence.repository.UserRepoDB;
 import turism.server.TurismServicesImpl;
 import turism.services.ITurismServices;
 import turism.network.utils.AbstractServer;
+import utils.HibernateUtils;
 
 import java.io.File;
 import java.util.Properties;
@@ -30,9 +34,18 @@ public class StartRpcServer {
             logger.debug("Looking into folder {}", new File(".").getAbsolutePath());
             return;
         }
-        UserRepo userRepo = new UserRepoDB(serverProps);
+        SessionFactory sessionFactory;
+        try{
+            sessionFactory = HibernateUtils.getSessionFactory();
+        } catch (Exception e) {
+            logger.error("Error creating session factory: " + e.getMessage());
+            return;
+        }
+        //aUserRepo userRepo = new UserRepoDB(serverProps);
+        UserRepo userRepo = new UserRepoORM(sessionFactory);
         ClientRepo clientRepo = new ClientRepoDB(serverProps);
-        ExcursieRepo excursieRepo = new ExcursieRepoDB(serverProps);
+        //ExcursieRepo excursieRepo = new ExcursieRepoDB(serverProps);
+        ExcursieRepo excursieRepo = new ExcursieRepoORM(sessionFactory);
         RezervareRepo rezervareRepo = new RezervareRepoDB(serverProps);
 
         ITurismServices server = new TurismServicesImpl(clientRepo, excursieRepo, rezervareRepo, userRepo);

@@ -1,21 +1,52 @@
 package turism.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Excursie extends Entity<Long> implements Serializable {
+
+@Entity
+@Table(name = "excursii")
+public class Excursie extends MyEntity<Long> implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "obiectiv")
     private String obiectiv;
+
+    @Column(name = "firmaTransport")
     private String firmaTransport;
-    private LocalDateTime dataPlecarii;
-    private Integer nrLocuriDisponibile;
+
+    @Column(name = "dataPlecarii")
+    @Convert(converter = LocalDateTimeStringConverter.class)
+    private LocalDateTime oraPlecarii;
+
+    @Column(name = "nrLocuriDisponibile")
+    private int numarLocuri;
+
+    @Column(name = "pret")
     private int pret;
+
+    public Excursie() {
+
+    }
 
     public Excursie(String obiectiv, String firmaTransport, LocalDateTime dataPlecarii, Integer nrLocuriDisponibile, int pret) {
         this.obiectiv = obiectiv;
         this.firmaTransport = firmaTransport;
-        this.dataPlecarii = dataPlecarii;
-        this.nrLocuriDisponibile = nrLocuriDisponibile;
+        this.oraPlecarii = dataPlecarii;
+        this.numarLocuri = nrLocuriDisponibile;
+        this.pret = pret;
+    }
+
+    public Excursie(String obiectiv, int pret, String firmaTransport, LocalDateTime oraPlecarii, int numarLocuri)
+    {
+        this.obiectiv = obiectiv;
+        this.firmaTransport = firmaTransport;
+        this.oraPlecarii = oraPlecarii;
+        this.numarLocuri = numarLocuri;
         this.pret = pret;
     }
 
@@ -44,19 +75,19 @@ public class Excursie extends Entity<Long> implements Serializable {
     }
 
     public LocalDateTime getDataPlecarii() {
-        return dataPlecarii;
+        return oraPlecarii;
     }
 
     public void setDataPlecarii(LocalDateTime dataPlecarii) {
-        this.dataPlecarii = dataPlecarii;
+        this.oraPlecarii = dataPlecarii;
     }
 
     public Integer getNrLocuriDisponibile() {
-        return nrLocuriDisponibile;
+        return numarLocuri;
     }
 
     public void setNrLocuriDisponibile(Integer nrLocuriDisponibile) {
-        this.nrLocuriDisponibile = nrLocuriDisponibile;
+        this.numarLocuri = nrLocuriDisponibile;
     }
 
     public int getPret() {
@@ -73,8 +104,9 @@ public class Excursie extends Entity<Long> implements Serializable {
                 "id=" + id +
                 ", obiectiv='" + obiectiv + '\'' +
                 ", firmaTransport='" + firmaTransport + '\'' +
-                ", dataPlecarii=" + dataPlecarii +
-                ", nrLocuriDisponibile=" + nrLocuriDisponibile +
+                ", dataPlecarii=" + oraPlecarii +
+                ", nrLocuriDisponibile=" + numarLocuri +
+                ", pret=" + pret +
                 '}';
     }
 }
